@@ -10,7 +10,7 @@
 
 <script>
   export default {
-    name: 'VabContent',
+    name: 'Content',
     watch: {
       $route: {
         handler() {

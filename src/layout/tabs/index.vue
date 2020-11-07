@@ -47,7 +47,7 @@
   import { DownOutlined } from '@ant-design/icons-vue'
   import { mapActions, mapGetters } from 'vuex'
   export default {
-    name: 'VabTabs',
+    name: 'Tabs',
     components: {
       DownOutlined,
     },

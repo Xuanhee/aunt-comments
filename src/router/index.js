@@ -65,6 +65,83 @@ const routes = [
     ],
   },
   {
+    path: '/aa',
+    component: Layout,
+    redirect: '/aa/test',
+    meta: {
+      title: '动态路由测试',
+      icon: 'ShopOutlined',
+    },
+    children: [
+      {
+        path: 'test',
+        name: 'AA',
+        component: () => import('@/views/test'),
+        meta: {
+          title: '动态路由测试',
+          icon: 'ShopOutlined',
+        },
+      },
+    ],
+  },
+  {
+    path: '/bb',
+    component: Layout,
+    meta: {
+      title: '动态路由测试',
+      icon: 'ShopOutlined',
+    },
+    children: [
+      {
+        path: '/bb/test',
+        name: 'BB',
+        component: () => import('@/views/test'),
+        meta: {
+          title: '动态路由测试',
+          icon: 'ShopOutlined',
+        },
+      },
+    ],
+  },
+  {
+    path: '/cc',
+    component: Layout,
+    meta: {
+      title: '动态路由测试',
+      icon: 'ShopOutlined',
+    },
+    children: [
+      {
+        path: '/cc/test',
+        name: 'CC',
+        component: () => import('@/views/test'),
+        meta: {
+          title: '动态路由测试',
+          icon: 'ShopOutlined',
+        },
+      },
+    ],
+  },
+  {
+    path: '/dd',
+    component: Layout,
+    meta: {
+      title: '动态路由测试',
+      icon: 'ShopOutlined',
+    },
+    children: [
+      {
+        path: '/dd/test',
+        name: 'DD',
+        component: () => import('@/views/test'),
+        meta: {
+          title: '动态路由测试',
+          icon: 'ShopOutlined',
+        },
+      },
+    ],
+  },
+  {
     path: '/*',
     redirect: '/404',
     hidden: true,
