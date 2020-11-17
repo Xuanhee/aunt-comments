@@ -40,6 +40,7 @@ router.beforeEach(async (to, from, next) => {
           let accessRoutes = []
           // 前端配置路由方式
           if (authentication === 'intelligence') {
+            // 这一步是筛选动态路由 ***
             accessRoutes = await store.dispatch('routes/setRoutes')
           } else if (authentication === 'all') {
             // 后端配置路由方式（需要调接口）

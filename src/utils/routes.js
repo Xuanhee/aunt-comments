@@ -2,7 +2,7 @@ import router from '@/router'
 import path from 'path'
 import { rolesControl } from '@/config'
 import { isExternal } from '@/utils/validate'
-import { hasRole } from '@/utils/hasRole'
+import store from '@/store'
 
 /**
 
@@ -44,7 +44,7 @@ export function convertRouter(constantRoutes) {
 
 /**
 
- * @description 根据roles数组拦截路由
+ * @description 根据roles数组拦截路由(动态路由)
  * @param routes
  * @param baseUrl
  * @returns {[]}
@@ -52,9 +52,11 @@ export function convertRouter(constantRoutes) {
 export function filterRoutes(routes, baseUrl = '/') {
   return routes
     .filter((route) => {
-      if (route.meta && route.meta.roles)
+      if (route.meta && route.meta.roles) {
         return !rolesControl || hasRole(route.meta.roles)
-      else return true
+      } else {
+        return true
+      }
     })
     .map((route) => {
       if (route.path !== '*' && !isExternal(route.path))
@@ -64,6 +66,62 @@ export function filterRoutes(routes, baseUrl = '/') {
         route.children = filterRoutes(route.children, route.fullPath)
       return route
     })
+}
+
+// 处理权限函数
+export function hasRole(value) {
+  // admin表示全部权限
+  if (store.getters['acl/admin']) return true
+  if (value instanceof Array && value.length > 0)
+    return can(store.getters['acl/role'], {
+      role: value,
+      mode: 'oneOf',
+    })
+  let mode = 'oneOf'
+  if (Object.prototype.hasOwnProperty.call(value, 'mode')) mode = value['mode']
+  let result = true
+  if (Object.prototype.hasOwnProperty.call(value, 'role'))
+    result =
+      result && can(store.getters['acl/role'], { role: value['role'], mode })
+  if (result && Object.prototype.hasOwnProperty.call(value, 'ability'))
+    result =
+      result &&
+      can(store.getters['acl/ability'], {
+        role: value['ability'],
+        mode,
+      })
+  return result
+}
+
+export function can(roleOrAbility, value) {
+  let hasRole = false
+  if (
+    value instanceof Object &&
+    Object.prototype.hasOwnProperty.call(value, 'role') &&
+    Object.prototype.hasOwnProperty.call(value, 'mode')
+  ) {
+    const { role, mode } = value
+    console.log(role, mode)
+    // 所有包含
+    if (mode === 'allOf') {
+      hasRole = role.every((item) => {
+        return roleOrAbility.includes(item)
+      })
+    }
+    // 其中一个包含
+    if (mode === 'oneOf') {
+      hasRole = role.some((item) => {
+        return roleOrAbility.includes(item)
+      })
+    }
+    // 没有包含
+    if (mode === 'except') {
+      hasRole = !role.some((item) => {
+        return roleOrAbility.includes(item)
+      })
+    }
+  }
+  return hasRole
 }
 
 /**

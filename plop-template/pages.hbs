@@ -1,0 +1,14 @@
+import { defineComponent } from 'vue'
+import './{{name}}.css'
+
+export default defineComponent({
+  name: '{{name}}',
+  setup(props, { emit }) {
+    return () => {
+      return (
+        <a-card>
+        </a-card>
+      )
+    }
+  },
+})

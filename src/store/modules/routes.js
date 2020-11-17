@@ -27,6 +27,7 @@ const actions = {
    * @returns
    */
   async setRoutes({ commit }) {
+    // 所有要筛选的路由
     const finallyRoutes = filterRoutes([...constantRoutes, ...asyncRoutes])
     commit('setRoutes', finallyRoutes)
     return [...asyncRoutes]
@@ -39,8 +40,9 @@ const actions = {
    */
   async setAllRoutes({ commit }) {
     let { data } = await getRouterList()
-    if (data[data.length - 1].path !== '*')
+    if (data[data.length - 1].path !== '*') {
       data.push({ path: '*', redirect: '/404', hidden: true })
+    }
     const asyncRoutes = convertRouter(data)
     const finallyRoutes = filterRoutes([...constantRoutes, ...asyncRoutes])
     commit('setRoutes', finallyRoutes)

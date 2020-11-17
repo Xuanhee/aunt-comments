@@ -13,7 +13,7 @@ const {
   build7z,
 } = require('./src/config')
 
-const { version, author } = require('./package.json')
+const { version } = require('./package.json')
 const Webpack = require('webpack')
 const FileManagerPlugin = require('filemanager-webpack-plugin')
 const dayjs = require('dayjs')
@@ -22,7 +22,6 @@ const time = dayjs().format('YYYY-M-D HH:mm:ss')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['html', 'js', 'css', 'svg']
 process.env.VUE_APP_TITLE = title || 'vue-admin'
-process.env.VUE_APP_AUTHOR = author || ''
 process.env.VUE_APP_UPDATE_TIME = time
 process.env.VUE_APP_VERSION = version
 

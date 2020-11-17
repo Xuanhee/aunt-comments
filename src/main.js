@@ -12,5 +12,5 @@ import 'default-passive-events'
 //   const { mockXHR } = require('@/utils/static')
 //   mockXHR()
 // }
-
-createApp(App).use(store).use(router).use(Antd).mount('#app')
+const app = createApp(App)
+app.use(store).use(router).use(Antd).mount('#app')

@@ -5,7 +5,13 @@
 </template>
 
 <script>
+  import { useRoute } from 'vue-router'
   export default {
     name: 'Test',
+    setup() {
+      const route = useRoute()
+      console.log(route.params)
+      console.log(route.query)
+    },
   }
 </script>
